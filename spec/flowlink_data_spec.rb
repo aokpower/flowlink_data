@@ -1,4 +1,4 @@
-require_relative '../lib/flowlink.rb'
+require_relative '../lib/flowlink_data.rb'
 
 class TestBase < Flowlink::ObjectBase
   def self.fields

@@ -1,4 +1,4 @@
-require 'flowlink/objectbase'
+require 'flowlink_data/objectbase'
 
 module Flowlink
   class Product < ObjectBase
