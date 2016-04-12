@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.authors = ['Cooper LeBrun']
   s.email = ['cooperlebrun@gmail.com']
-  # s.homepage
+  s.homepage = 'https://github.com/aokpower/flowlink_data'
 
   s.summary = 'A simple framework for getting Flowlink objects from other sources.'
   s.description = 'A framework for getting Flowlink objects from other sources. For example:
