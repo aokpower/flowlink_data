@@ -48,9 +48,8 @@ module Flowlink
     end
 
     def fields
+      # TODO: @fields ||= self.class.fields ???
       self.class.fields
     end
   end
 end
-
-
