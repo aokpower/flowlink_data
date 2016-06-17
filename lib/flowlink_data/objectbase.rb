@@ -8,11 +8,11 @@ module Flowlink
       Hash[fields.map { |f| [f.to_s, send(f)] }]
     end
 
-    alias to_message to_hash
+    alias_method to_message to_hash
 
     def self.fields
       # A list of fields that the object should have.
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     def fields
