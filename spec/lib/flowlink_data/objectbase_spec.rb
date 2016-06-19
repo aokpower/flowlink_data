@@ -36,11 +36,15 @@ RSpec.describe Flowlink do
         expect(keys.sort).to eq(base.fields.map(&:to_s).sort)
       end
 
-      it 'can give additional arguments to a method' do
-        # TODO: should this be array of arrays or hash :(
-        test = ->{ base.to_hash([[:baz, 1]]) }
-        expect { test.call }.to_not raise_error # is this argument a good test?
-        expect(test.call['baz']).to be true
+      context '#to_hash optional block' do
+        it 'can add for to #to_hash to use' do
+          # TODO: should this be array of arrays or hash :(
+          expect(base.to_hash(['baz', 1])['baz']).to be true
+        end
+
+        it 'can override calls that #to_hash uses' do
+          expect { base.to_hash([:foo, 1]) }.to raise_error(ArgumentError)
+        end
       end
     end
   end
