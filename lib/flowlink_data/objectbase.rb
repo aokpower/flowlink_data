@@ -40,7 +40,7 @@ module Flowlink
       Hash[f_methods.map { |f| [f.method_name.to_s, send(*f.to_a)] }]
     end
 
-    alias_method to_message to_hash
+    alias to_message to_hash
 
     def self.fields
       # A list of fields that the object should have.

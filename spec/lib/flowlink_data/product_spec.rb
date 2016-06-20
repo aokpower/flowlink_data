@@ -1,4 +1,4 @@
-require_relative '../lib/flowlink_data.rb'
+require_relative '../../../lib/flowlink_data.rb'
 
 class TestBase < Flowlink::ObjectBase
   def self.fields
@@ -35,33 +35,5 @@ RSpec.describe Flowlink do
     end
 
     # describe '#fields'
-  end
-
-  describe Flowlink::ObjectBase do
-    # A module to be included in host Flowlink::Product classes.
-
-    let(:base) { TestBase.new }
-
-    describe '#to_message' do
-      subject { base.to_message }
-      let(:keys) { subject.keys }
-
-      it { is_expected.to be_kind_of(Hash) }
-
-      it 'keys are strings' do
-        expect(keys.all? { |k| k.kind_of?(String) }).to eq(true)
-      end
-
-      it 'has keys matching fields' do
-        expect(keys.sort).to eq(base.fields.map(&:to_s).sort)
-      end
-
-      it 'can give additional arguments to a method' do
-        # TODO: should this be array of arrays or hash :(
-        test = ->{ base.to_hash([[:baz, 1]]) }
-        expect { test.call }.to_not raise_error # is this argument a good test?
-        expect(test.call['baz']).to be true
-      end
-    end
   end
 end
