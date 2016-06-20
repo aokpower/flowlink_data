@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.email = ['cooperlebrun@gmail.com']
   s.homepage = 'https://github.com/aokpower/flowlink_data'
 
-  s.summary = 'A simple framework for getting Flowlink objects from other sources.'
+  s.summary = 'Constructor object bases for use with flowlink.io'
   s.description = 'A framework for getting Flowlink objects from other sources. For example:
   class Distributor::Product < Flowlink::Product
     def sku(hashable)
