@@ -14,6 +14,10 @@ class TestBase < Flowlink::ObjectBase
   def baz(n = 0)
     n == 1
   end
+
+  def biz
+    yield
+  end
 end
 
 RSpec.describe Flowlink do
@@ -36,15 +40,17 @@ RSpec.describe Flowlink do
         expect(keys.sort).to eq(base.fields.map(&:to_s).sort)
       end
 
-      context '#to_hash optional block' do
-        it 'can add for to #to_hash to use' do
-          # TODO: should this be array of arrays or hash :(
-          expect(base.to_hash(['baz', 1])['baz']).to be true
-        end
+      it 'can add a new call' do
+        # TODO: should this be array of arrays or hash :(
+        expect(base.to_hash(['baz', 1])['baz']).to be true
+      end
 
-        it 'can override calls that #to_hash uses' do
-          expect { base.to_hash([:foo, 1]) }.to raise_error(ArgumentError)
-        end
+      it 'can override an existing call' do
+        expect { base.to_hash([:foo, 1]) }.to raise_error(ArgumentError)
+      end
+
+      it 'can add a block' do
+        expect(base.to_hash([:biz, proc { 1 }])['biz']).to eq 1
       end
     end
   end
