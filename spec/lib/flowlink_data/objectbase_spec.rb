@@ -22,7 +22,7 @@ end
 
 RSpec.describe Flowlink do
   describe Flowlink::ObjectBase do
-    # A module to be included in host Flowlink::Product classes.
+    # include in Flowlink::<BusinessObject> classes, such as Product.
 
     let(:base) { TestBase.new }
 
