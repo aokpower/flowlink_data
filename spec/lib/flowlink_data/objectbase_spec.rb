@@ -10,7 +10,7 @@ class TestBase < Flowlink::ObjectBase
       self.class.send(:define_method, f.to_s) { 1 }
     end
   end
-  
+
   def baz(n = 0)
     n == 1
   end
