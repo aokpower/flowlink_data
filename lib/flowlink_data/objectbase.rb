@@ -51,12 +51,14 @@ module Flowlink
     # Base class for any Flowlink objects. Child classes should implement
     # self.fields internally.
 
-    def to_hash(*overrides)
-      overrides = FieldMethod.multi_new(overrides)
-      defaults  = FieldMethod.multi_new(fields)
-      f_methods = FieldMethod.merge(overrides, defaults)
+    def initialize(*overrides)
+      overrides  = FieldMethod.multi_new(overrides)
+      defaults   = FieldMethod.multi_new(fields)
+      @f_methods = FieldMethod.merge(overrides, defaults)
+    end
 
-      Hash[f_methods.map { |fm| [fm.method_name.to_s, fm.send_to(self)] }]
+    def to_hash
+      Hash[@f_methods.map { |fm| [fm.method_name.to_s, fm.send_to(self)] }]
     end
 
     alias to_message to_hash
