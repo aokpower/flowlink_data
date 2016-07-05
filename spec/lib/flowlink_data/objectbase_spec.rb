@@ -5,7 +5,7 @@ class TestBase < Flowlink::ObjectBase
     [:foo, :bar]
   end
 
-  def initialize(overrides)
+  def initialize(*overrides)
     fields.each do |f|
       self.class.send(:define_method, f.to_s) { 1 }
     end
