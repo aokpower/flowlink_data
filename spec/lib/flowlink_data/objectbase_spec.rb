@@ -25,18 +25,28 @@ RSpec.describe Flowlink do
   describe Flowlink::ObjectBase do
     # include in Flowlink::<BusinessObject> classes, such as Product.
 
-    context '#new' do
+    context '#new args:' do
+      # Not sure I want to enable old style.
+      # it 'can use old array input style' do
+      #   override = [:baz, [1]]
+      #   actual   = TestBase.new(override)
+      #   expect(actual.to_hash['baz']).to eq true
+      # end
+
       it 'can add a new call' do
-        actual = TestBase.new([:baz, [1]])
+        override = FieldMethod.new :baz, 1
+        actual   = TestBase.new(override)
         expect(actual.to_hash['baz']).to eq true
       end
 
       it 'can override an existing call' do
-        expect { TestBase.new([:foo, [1]]).to_hash }.to raise_error(ArgumentError)
+        override = FieldMethod.new :foo, 1
+        expect { TestBase.new(override).to_hash }.to raise_error(ArgumentError)
       end
 
       it 'can add a block' do
-        actual = TestBase.new([:biz, [ proc { 1 } ]])
+        override = FieldMethod.new :biz, proc { 1 }
+        actual   = TestBase.new(override)
         expect(actual.to_hash['biz']).to eq 1
       end
     end

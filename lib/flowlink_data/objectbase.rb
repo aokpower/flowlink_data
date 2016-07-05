@@ -2,11 +2,17 @@ require_relative '../field_method'
 
 module Flowlink
   class ObjectBase
-    # Base class for any Flowlink objects. Child classes should implement
+    # Base class for any Flowlink objects. Children should implement
     # self.fields internally.
 
+    attr_accessor :f_methods
+
     def initialize(*overrides)
-      overrides  = FieldMethod.multi_new(overrides)
+      unless overrides.flatten!.all? { |arg| arg.is_a?(FieldMethod) }
+        # using array arguments isn't supported anymore
+        fail ArgumentError, 'Arguments need to be FieldMethods'
+      end
+
       defaults   = FieldMethod.multi_new(fields)
       @f_methods = FieldMethod.merge(overrides, defaults)
     end
