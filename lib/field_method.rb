@@ -23,7 +23,12 @@ class FieldMethod # TODO: put in Flowlink module
     @block        = @block[0]
   end
 
-  def merge(list)
+  def ==(other)
+    return false unless other.is_a?(self.class)
+    to_a == other.to_a
+  end
+
+  def merge(list) # rename to #override, #hard_merge, or add #override alias?
     # This will put itself into a list of other FieldMethods and overwrite
     # an existing FM with the same name
     list.delete_if { |o_fm| o_fm.method_name == method_name }
