@@ -36,7 +36,7 @@ class FieldMethod # TODO: put in Flowlink module
   end
 
   def to_a
-    [method_name] + args
+    [method_name] + args + (@block.nil? ? [] : [@block])
   end
 
   def send_to(sendable)
