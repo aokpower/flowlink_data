@@ -1,4 +1,8 @@
-class FieldMethod
+# Represents a property of a domain object. For example, a price in a product.
+# If you need to change how one of these is handled in a specific product,
+# then you can use it as a #new argument for a class which inherits from
+# Flowlink::ObjectBase, and invokes super in .initialize
+class FieldMethod # TODO: put in Flowlink module
   attr_reader :method_name, :args, :block
 
   def self.multi_new(methods)
@@ -19,7 +23,12 @@ class FieldMethod
     @block        = @block[0]
   end
 
-  def merge(list)
+  def ==(other)
+    return false unless other.is_a?(self.class)
+    to_a == other.to_a
+  end
+
+  def merge(list) # rename to #override, #hard_merge, or add #override alias?
     # This will put itself into a list of other FieldMethods and overwrite
     # an existing FM with the same name
     list.delete_if { |o_fm| o_fm.method_name == method_name }
@@ -27,7 +36,7 @@ class FieldMethod
   end
 
   def to_a
-    [method_name] + args
+    [method_name] + args + (@block.nil? ? [] : [@block])
   end
 
   def send_to(sendable)
