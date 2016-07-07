@@ -1,4 +1,8 @@
-class FieldMethod
+# Represents a property of a domain object. For example, a price in a product.
+# If you need to change how one of these is handled in a specific product,
+# then you can use it as a #new argument for a class which inherits from
+# Flowlink::ObjectBase, and invokes super in .initialize
+class FieldMethod # TODO: put in Flowlink module
   attr_reader :method_name, :args, :block
 
   def self.multi_new(methods)
