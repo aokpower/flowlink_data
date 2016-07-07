@@ -5,12 +5,13 @@ class TestBase < Flowlink::ObjectBase
     [:foo, :bar]
   end
 
-  def initialize
+  def initialize(*overrides)
     fields.each do |f|
       self.class.send(:define_method, f.to_s) { 1 }
     end
+    super
   end
-  
+
   def baz(n = 0)
     n == 1
   end
@@ -22,13 +23,38 @@ end
 
 RSpec.describe Flowlink do
   describe Flowlink::ObjectBase do
-    # A module to be included in host Flowlink::Product classes.
+    # include in Flowlink::<BusinessObject> classes, such as Product.
 
-    let(:base) { TestBase.new }
+    context '#new args:' do
+      # Not sure I want to enable old style.
+      # it 'can use old array input style' do
+      #   override = [:baz, [1]]
+      #   actual   = TestBase.new(override)
+      #   expect(actual.to_hash['baz']).to eq true
+      # end
+
+      it 'can add a new call' do
+        override = FieldMethod.new :baz, 1
+        actual   = TestBase.new(override)
+        expect(actual.to_hash['baz']).to eq true
+      end
+
+      it 'can override an existing call' do
+        override = FieldMethod.new :foo, 1
+        expect { TestBase.new(override).to_hash }.to raise_error(ArgumentError)
+      end
+
+      it 'can add a block' do
+        override = FieldMethod.new :biz, proc { 1 }
+        actual   = TestBase.new(override)
+        expect(actual.to_hash['biz']).to eq 1
+      end
+    end
 
     context '#to_message' do
       subject { base.to_message }
       let(:keys) { subject.keys }
+      let(:base) { TestBase.new }
 
       it { is_expected.to be_kind_of(Hash) }
 
@@ -40,18 +66,6 @@ RSpec.describe Flowlink do
         expect(keys.sort).to eq(base.fields.map(&:to_s).sort)
       end
 
-      it 'can add a new call' do
-        # TODO: should this be array of arrays or hash :(
-        expect(base.to_hash(['baz', 1])['baz']).to be true
-      end
-
-      it 'can override an existing call' do
-        expect { base.to_hash([:foo, 1]) }.to raise_error(ArgumentError)
-      end
-
-      it 'can add a block' do
-        expect(base.to_hash([:biz, proc { 1 }])['biz']).to eq 1
-      end
     end
   end
 end
